@@ -20,7 +20,7 @@
         <Table
           :loading="modalLoading"
           :columns="modalCol"
-          :data="fomData.modalForm"
+          :data="tableData"
         >
           <template
             slot="buzType"
@@ -30,11 +30,12 @@
               <Select
                 v-model="fomData.modalForm[index].buzType"
                 :transfer="true"
+                @on-change="changeBuzTp"
               >
-                <Option value="beijing">
+                <Option value="1">
                   经营单元
                 </Option>
-                <Option value="shanghai">
+                <Option value="2">
                   经营单元目标
                 </Option>
               </Select>
@@ -44,11 +45,13 @@
             slot="role"
             slot-scope="{index}"
           >
+            <!-- {{ index }} -->
             <FormItem>
               <Select
                 v-model="fomData.modalForm[index].role"
                 multiple
                 :transfer="true"
+                @on-change="changeRole"
               >
                 <Option value="beijing">
                   经营单元目标管理员
@@ -69,6 +72,7 @@
             slot="template"
             slot-scope="{index}"
           >
+            <!-- {{ index }} -->
             <FormItem>
               <Select
                 v-model="fomData.modalForm[index].template"
@@ -144,6 +148,7 @@ export default {
           }
         }
       ],
+      tableData: [{}],
       fomData:
       { modalForm: [
         { buzType: '',
@@ -151,10 +156,50 @@ export default {
           actType: '',
           template: '' }
       ] }
-
     }
   },
   methods: {
+    changeBuzTp (val) {
+      this.$Message.info(val)
+      if (val === '1') {
+        debugger
+        this.fomData = { modalForm: [
+          { buzType: val,
+            role: '',
+            actType: '',
+            template: '' },
+          { buzType: val,
+            role: '',
+            actType: '',
+            template: '' },
+          { buzType: val,
+            role: '',
+            actType: '',
+            template: '' },
+          { buzType: val,
+            role: '',
+            actType: '',
+            template: '' }
+
+        ] }
+        this.tableData = [{}, {}, {}, {}]
+      } else {
+        this.fomData = { modalForm: [
+          { buzType: val,
+            role: '',
+            actType: '',
+            template: '' },
+          { buzType: val,
+            role: '',
+            actType: '',
+            template: '' }
+        ] }
+        this.tableData = [{}, {}]
+      }
+    },
+    changeRole (val) {
+      console.log(val) // array
+    },
     addCancel () {
       this.$Message.info('Clicked ok')
     },
